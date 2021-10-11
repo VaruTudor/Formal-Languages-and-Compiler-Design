@@ -1,0 +1,18 @@
+Requirement: Compute the sum of 2 input numbers and display it.
+Solution:
+
+start{
+
+integer 2a; <- lexical error
+integer b;
+integer sum;
+
+sum=0;
+read a;
+read b;
+
+sum+=b;	<- lexical error
+sum=sum+a;
+
+write sum;
+}

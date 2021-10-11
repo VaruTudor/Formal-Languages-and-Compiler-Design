@@ -1,0 +1,28 @@
+Requirement: Compute the maximum number out of 3 input numbers and display it.
+Solution:
+
+start {
+
+integer a;
+integer b;
+integer c;
+integer max;
+
+read a;
+read b;
+read c;
+
+if(a>b&&a>c){
+	max=a;
+}
+else{
+	if(b>c&&b>a){
+		max=b;
+	}
+	else{
+		max=c;
+	}
+}
+
+write max;
+}

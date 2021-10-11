@@ -1,0 +1,23 @@
+Requirement: Compute the sum of n input numbers which are bigger than m (another input number) and display it.
+Solution:
+
+start{
+
+integer n;
+integer m;
+integer sum;
+integer current_number;
+
+sum=0;
+read n;
+read m;
+
+for(i=0;i<n;i=i+1){
+	read current_number;
+	if(current_number>m){
+		sum=sum+current_number;
+	}
+}
+
+write sum;
+}
