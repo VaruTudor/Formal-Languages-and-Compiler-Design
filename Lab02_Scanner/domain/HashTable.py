@@ -12,6 +12,13 @@ class HashTable:
         self.__items = [deque() for _ in range(size)]
 
     def hash(self, key):
+        """
+        Modular hashing, the hash function is simply h(k) = k mod m for some m - size.
+        k is computed as sum of all ASCII values of key's characters.
+        The return value is an integer hash code generated from the input (key).
+        :param key: input token
+        :return: the value of the hash function
+        """
         total_sum = 0
         for character in key:
             total_sum += ord(character)
@@ -30,9 +37,9 @@ class HashTable:
         self.__items[self.hash(key)].remove(key)
 
     def __str__(self) -> str:
-        result = "Symbol Table (kept as a Hash Table using LinkedLists)\n"
+        result = "ST\n"
         for i in range(self.__size):
-            result = result + str(i) + "->" + str(self.__items[i]) + "\n"
+            result = result + str(i) + "-" + str(self.__items[i]) + "\n"
         return result
 
     def getPosition(self, key):
