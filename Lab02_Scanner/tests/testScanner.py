@@ -33,18 +33,12 @@ class TestScanner:
                         if tokens[i] == ' ':
                             continue
                         self.pif.add(tokens[i], (-1, -1))
-                    elif tokens[i] in self.scanner.cases and i < len(tokens) - 1:
-                        if re.match("[1-9]", tokens[i + 1]):
-                            self.pif.add(tokens[i][:-1], (-1, -1))
-                        else:
-                            exceptionMessage += 'Lexical error at token ' + tokens[i] + ', at line ' + str(
-                                numberOfCurrentLine) + "\n"
                     elif Scanner.isIdentifier(tokens[i]):
                         self.pif.add("id", self.st.add(tokens[i]))
                     elif Scanner.isConstant(tokens[i]):
                         self.pif.add("const", self.st.add(tokens[i]))
                     else:
-                        exceptionMessage += 'Lexical error at token ' + tokens[i] + ', at line ' + str(
+                        exceptionMessage += 'lexical error at token - ' + tokens[i] + ' - at line ' + str(
                             numberOfCurrentLine) + "\n"
 
         with open('st.out', 'w') as writer:
@@ -54,7 +48,7 @@ class TestScanner:
             writer.write(str(self.pif))
 
         if exceptionMessage == "":
-            print("Lexically correct")
+            print("lexically correct")
         else:
             print(exceptionMessage)
 

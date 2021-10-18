@@ -3,16 +3,16 @@ start{
 integer n;
 integer m;
 integer sum;
-integer current_number;
+integer currentNumber;
 
 sum=0;
 read n;
 read m;
 
 for(i=0;i<n;i=i+1){
-	read current_number;
-	if(current_number>m){
-		sum=sum+current_number;
+	read currentNumber;
+	if(currentNumber>m){
+		sum=sum+currentNumber;
 	}
 }
 
