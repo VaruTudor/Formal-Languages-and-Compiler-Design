@@ -3,11 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="73d62a47-adc1-42b7-abe0-718f3e169c1d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scanner.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Scanner.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Scanner.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Scanner.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/ProgramInternalForm.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/ProgramInternalForm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/tokens.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/p3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/p1err.txt" beforeDir="false" afterPath="$PROJECT_DIR$/p1err.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/p2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/p2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pif.out" beforeDir="false" afterPath="$PROJECT_DIR$/pif.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/st.out" beforeDir="false" afterPath="$PROJECT_DIR$/st.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/testScanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testScanner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/~$canner.docx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +47,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -114,7 +120,10 @@
       <workItem from="1634292906372" duration="36000" />
       <workItem from="1634292958603" duration="223000" />
       <workItem from="1634293184529" duration="1471000" />
-      <workItem from="1634551560352" duration="4705000" />
+      <workItem from="1634551560352" duration="5320000" />
+      <workItem from="1634589149445" duration="1814000" />
+      <workItem from="1635156428283" duration="3762000" />
+      <workItem from="1635763960744" duration="436000" />
     </task>
     <servers />
   </component>
@@ -123,6 +132,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Scanner$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1633950292354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Lab02_Scanner$main.coverage" NAME="main Coverage Results" MODIFIED="1634555510631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Lab02_Scanner$main.coverage" NAME="main Coverage Results" MODIFIED="1635159605478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -4,11 +4,13 @@ integer 2a;
 integer b;
 integer sum;
 
-sum=0;
+sum=2;
 read a;
 read b;
 
-sum+=b;
+c="aa
+
+sum=b;
 sum=sum+a;
 
 write sum;

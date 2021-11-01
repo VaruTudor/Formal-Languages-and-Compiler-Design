@@ -12,5 +12,5 @@ if __name__ == '__main__':
         # testScanner.testBasic()
         # testScanner.testP1()
         # testScanner.testP2()
-        testScanner.testP3()
-        # testScanner.testP1Err()
+        # testScanner.testP3()
+        testScanner.testP1Err()

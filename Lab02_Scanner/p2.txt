@@ -4,6 +4,9 @@ integer a;
 integer i;
 integer isPrime;
 
+string f;
+character e;
+
 isPrime=0;
 read a;
 
