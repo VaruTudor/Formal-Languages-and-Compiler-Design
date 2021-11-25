@@ -2,6 +2,8 @@ from domain.item import Item
 from domain.state import State
 import copy
 
+from domain.table import Table
+
 AUGMENTED_PRODUCTION_LHS = 'S`'
 
 
@@ -9,12 +11,14 @@ class Parser:
     """
     LR0 Parser
     """
+
     def __init__(self, grammar):
         self.grammar = grammar
         self.addAugmentedProduction()
         self.items = []
         self.computeInitialLr0Items()
         self.canonicalCollection = []
+        self.table = Table(self.grammar.N + self.grammar.E)
 
     def addAugmentedProduction(self):
         """
@@ -65,6 +69,8 @@ class Parser:
                             items.append(otherItem)
             if itemsAtIterationStart == items:
                 break
+        if items[0].lhs == AUGMENTED_PRODUCTION_LHS:
+            return State(items, len(self.canonicalCollection))
         return State(items, len(self.canonicalCollection))
 
     def isInCanonicalCollection(self, state):
@@ -118,16 +124,37 @@ class Parser:
         items = []
         for item in state.items:
             # dot position is at the end
-            if item.dotPosition == len(item.rhs):
+            if item.isDotAtTheEnd():
                 continue
             if item.getSymbolAfterDot() == symbol:
                 newItem = copy.deepcopy(item)
                 newItem.moveDot()
                 items.append(newItem)
         if items:
-            return self.closure(items)
+            gotoResult = self.closure(items)
+            if gotoResult != [] and not self.isInCanonicalCollection(gotoResult):
+                self.table.addSymbolToState(state, symbol, gotoResult)
+            return gotoResult
         else:
             return []
+
+    def computeTableActions(self):
+        """
+        For each state in the canonical collection add in the LR0 Table it's appropriate action
+        """
+        for state in self.canonicalCollection:
+            item = state.items[0]
+            if item.lhs == AUGMENTED_PRODUCTION_LHS and item.isDotAtTheEnd():
+                self.table.addActionToState(state, 'acc     ')
+            elif item.isDotAtTheEnd():
+                reduceValue = -1
+                for rhs in self.grammar.P[item.lhs]:
+                    if item.rhs == rhs[0]:
+                        reduceValue = rhs[1]
+                self.table.addActionToState(state, 'reduce ' + str(reduceValue))
+
+            else:
+                self.table.addActionToState(state, 'shift   ')
 
     def printCanonicalCollection(self):
         result = ''
@@ -135,3 +162,6 @@ class Parser:
             result += repr(state)
             result += '\n'
         print(result[:-1])
+
+    def printLr0Table(self):
+        print(self.table)

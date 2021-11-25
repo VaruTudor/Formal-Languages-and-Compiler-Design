@@ -36,6 +36,10 @@ class Console:
         self.parser.computeCanonicalCollection()
         self.parser.printCanonicalCollection()
         printBr()
+        print('LR0 Table:')
+        self.parser.computeTableActions()
+        self.parser.printLr0Table()
+        printBr()
 
 
 # Press the green button in the gutter to run the script.
@@ -43,4 +47,4 @@ if __name__ == '__main__':
     ui = Console()
     ui.run()
 
-# TODO - refactor code; write documentation; publish on git; create table(!); complete docs; publish git
+# TODO - create table(!); complete docs; publish git

@@ -11,6 +11,9 @@ class Item:
     def getSymbolAfterDot(self):
         return self.rhs[self.dotPosition]
 
+    def isDotAtTheEnd(self):
+        return len(self.rhs) == self.dotPosition
+
     def __eq__(self, other):
         return self.lhs == other.lhs and self.rhs == other.rhs and self.dotPosition == other.dotPosition
 
