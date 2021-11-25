@@ -32,16 +32,16 @@ class Grammar:
 
         for rule in rules:
             lhs, rhs = rule.split('->')
-            lhs = lhs.strip()
-
+            lhs = [value.strip() for value in lhs.split('|')]
             rhs = [value.strip() for value in rhs.split('|')]
 
-            for value in rhs:
-                if lhs in result.keys():
-                    result[lhs].append((value, index))
-                else:
-                    result[lhs] = [(value, index)]
-                index += 1
+            for valueLhs in lhs:
+                for value in rhs:
+                    if valueLhs in result.keys():
+                        result[valueLhs].append((value, index))
+                    else:
+                        result[valueLhs] = [(value, index)]
+                    index += 1
 
         return result
 
@@ -51,7 +51,8 @@ class Grammar:
             lhs, rhs = rule.split('->')
             lhs = lhs.strip()
             count = 0
-            for element in lhs.strip(','):
+            for element in lhs.split('|'):
+                element = element.strip()
                 if element in N:
                     count += 1
             if count > 1:

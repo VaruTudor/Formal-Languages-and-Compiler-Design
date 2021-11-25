@@ -1,27 +1,46 @@
-from grammar import Grammar
+from domain.grammar import Grammar
+from domain.parser import Parser
 
-FILE_NAME = 'example1.in'
+FILE_NAME = 'g3.txt'
 GET_PRODUCTIONS_FOR = 'A'
+
+
+def printBr():
+    print('------------------------------------------------------------')
 
 
 class Console:
     def __init__(self):
         self.grammar = None
+        self.parser = None
 
     def run(self):
         self.grammar = Grammar.fromFile(FILE_NAME)
+        printBr()
+        print('Non-terminals and Terminals:')
         print(self.grammar)
-        print('productions')
-        print(self.grammar.getProductions())
-        print('productions for ' + GET_PRODUCTIONS_FOR)
+        printBr()
+        print('Productions:')
+        print(self.grammar.P)
+        printBr()
+        print('Productions for ' + GET_PRODUCTIONS_FOR + ':')
         print(self.grammar.getProductionsFor(GET_PRODUCTIONS_FOR))
+        printBr()
         if self.grammar.isCFG:
-            print('CFG')
+            print('The grammar is CFG')
         else:
-            print('not CFG')
+            print('The grammar is not CFG')
+        printBr()
+        print('Canonical Collection:')
+        self.parser = Parser(grammar=self.grammar)
+        self.parser.computeCanonicalCollection()
+        self.parser.printCanonicalCollection()
+        printBr()
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     ui = Console()
     ui.run()
+
+# TODO - refactor code; write documentation; publish on git; create table(!); complete docs; publish git
