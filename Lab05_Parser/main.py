@@ -1,7 +1,7 @@
 from domain.grammar import Grammar
 from domain.parser import Parser
 
-FILE_NAME = 'g2.txt'
+FILE_NAME = 'g3.txt'
 GET_PRODUCTIONS_FOR = 'A'
 
 
@@ -40,11 +40,12 @@ class Console:
         self.parser.computeTableActions()
         self.parser.printLr0Table()
         printBr()
+        print('Parsing sequence: abbc')
+        self.parser.parseSequence('abbc')
+        printBr()
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     ui = Console()
     ui.run()
-
-# TODO - create table(!); complete docs; publish git

@@ -2,7 +2,7 @@ from domain.item import Item
 from domain.state import State
 import copy
 
-from domain.table import Table
+from domain.table import Table, addSpaces
 
 AUGMENTED_PRODUCTION_LHS = 'S`'
 
@@ -71,6 +71,10 @@ class Parser:
                 break
         if items[0].lhs == AUGMENTED_PRODUCTION_LHS:
             return State(items, len(self.canonicalCollection))
+        for state in self.canonicalCollection:
+            # if an identical state already exists, don't create a new one
+            if state.items == items:
+                return state
         return State(items, len(self.canonicalCollection))
 
     def isInCanonicalCollection(self, state):
@@ -132,7 +136,7 @@ class Parser:
                 items.append(newItem)
         if items:
             gotoResult = self.closure(items)
-            if gotoResult != [] and not self.isInCanonicalCollection(gotoResult):
+            if gotoResult:
                 self.table.addSymbolToState(state, symbol, gotoResult)
             return gotoResult
         else:
@@ -154,6 +158,53 @@ class Parser:
                 self.table.addActionToState(state, 'reduce' + str(reduceValue))
             else:
                 self.table.addActionToState(state, 'shift')
+
+    def buildInputStack(self, sequence):
+        """
+        Iterate and put each symbol found in the output list.
+        :param sequence: a string containing symbols among it
+        :return: a list of symbols
+        """
+        inputStack = []
+        index = 0
+        while index != len(sequence):
+            nextPossibleSymbol = sequence[index:]
+            while nextPossibleSymbol not in self.grammar.E + self.grammar.N:
+                nextPossibleSymbol = nextPossibleSymbol[:-1]
+            index += len(nextPossibleSymbol)
+            inputStack.append(nextPossibleSymbol)
+        return inputStack
+
+    def getStateHavingIndex(self, index):
+        """
+        :param index: the index of a state
+        :return: the state having that index
+        """
+        for state in self.canonicalCollection:
+            if state.index == index:
+                return state
+
+    def parseSequence(self, sequence):
+        """
+        The workingStack is a list considered a stack -> (meaning the top of the stack is the right most element), and
+        the inputStack is also a list considered a stack <- (meaning the first element is the top of the stack)
+        :param sequence: a string of symbols to be parsed
+        :return: outputStack
+        """
+        workingStack = [0]
+        inputStack = self.buildInputStack(sequence)
+        outputStack = []
+
+        while len(inputStack) > 0:
+        # while len(workingStack) > 0:
+            print(str(workingStack) + addSpaces(40 - len(str(workingStack))) + ' | ' + str(inputStack) + addSpaces(
+                40 - len(str(inputStack))) + ' | ' + str(outputStack))
+            topOfInputStack = inputStack.pop(0)
+            currentState = self.getStateHavingIndex(workingStack[-1])
+            currentAction = self.table.actionsForStates[currentState]
+            workingStack.append(topOfInputStack)
+            if currentAction == 'shift':
+                workingStack.append(self.table.stateToStateMap[currentState][topOfInputStack])
 
     def printCanonicalCollection(self):
         result = ''
