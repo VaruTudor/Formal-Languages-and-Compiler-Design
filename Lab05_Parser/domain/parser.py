@@ -36,7 +36,7 @@ class Parser:
         """
         for lhs in self.grammar.P:
             for rhs in self.grammar.P[lhs]:
-                self.items.append(Item(lhs, rhs[0]))
+                self.items.append(Item(lhs, rhs[0], self.grammar.N + self.grammar.E))
 
     def closure(self, itemList):
         """
@@ -59,7 +59,7 @@ class Parser:
         while True:
             itemsAtIterationStart = items.copy()
             for item in itemsAtIterationStart:
-                if item.dotPosition == len(item.rhs):
+                if item.isDotAtTheEnd():
                     # dot position is at the end
                     continue
                 if item.getSymbolAfterDot() in self.grammar.N:
@@ -145,16 +145,15 @@ class Parser:
         for state in self.canonicalCollection:
             item = state.items[0]
             if item.lhs == AUGMENTED_PRODUCTION_LHS and item.isDotAtTheEnd():
-                self.table.addActionToState(state, 'acc     ')
+                self.table.addActionToState(state, 'acc')
             elif item.isDotAtTheEnd():
                 reduceValue = -1
                 for rhs in self.grammar.P[item.lhs]:
                     if item.rhs == rhs[0]:
                         reduceValue = rhs[1]
-                self.table.addActionToState(state, 'reduce ' + str(reduceValue))
-
+                self.table.addActionToState(state, 'reduce' + str(reduceValue))
             else:
-                self.table.addActionToState(state, 'shift   ')
+                self.table.addActionToState(state, 'shift')
 
     def printCanonicalCollection(self):
         result = ''

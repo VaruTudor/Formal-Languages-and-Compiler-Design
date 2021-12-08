@@ -1,12 +1,12 @@
 from domain.grammar import Grammar
 from domain.parser import Parser
 
-FILE_NAME = 'g3.txt'
+FILE_NAME = 'g2.txt'
 GET_PRODUCTIONS_FOR = 'A'
 
 
 def printBr():
-    print('------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------------------------------------')
 
 
 class Console:

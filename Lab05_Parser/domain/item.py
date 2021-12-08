@@ -1,18 +1,25 @@
 class Item:
 
-    def __init__(self, lhs: str, rhs: str):
+    def __init__(self, lhs: str, rhs: str, symbols):
         self.lhs = lhs
         self.rhs = rhs
         self.dotPosition = 0
+        self.symbols = symbols
 
     def moveDot(self):
-        self.dotPosition += 1
+        self.dotPosition += len(self.getSymbolAfterDot())
 
     def getSymbolAfterDot(self):
-        return self.rhs[self.dotPosition]
+        nextPossibleSymbol = self.rhs[self.dotPosition:]
+        while nextPossibleSymbol not in self.symbols:
+            nextPossibleSymbol = nextPossibleSymbol[:-1]
+        return nextPossibleSymbol
 
     def isDotAtTheEnd(self):
         return len(self.rhs) == self.dotPosition
+
+    def setSymbols(self, symbolList):
+        self.symbols = symbolList
 
     def __eq__(self, other):
         return self.lhs == other.lhs and self.rhs == other.rhs and self.dotPosition == other.dotPosition

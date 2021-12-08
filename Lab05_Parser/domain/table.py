@@ -1,5 +1,7 @@
 import copy
 
+totalTableColumnSize = 18
+
 
 class Table:
 
@@ -21,22 +23,38 @@ class Table:
     def addActionToState(self, fromState, action):
         self.actionsForStates[fromState] = action
 
+    def addSpaces(self, number):
+        result = ''
+        for _ in range(number):
+            result += ' '
+        return result
+
     def __repr__(self):
-        result = ' | Action     |'
+        result = '   | Action           |'
         for symbol in self.symbolsToStateDefault.keys():
-            result += str(symbol) + '   |'
+            result += str(symbol)
+            result += self.addSpaces(totalTableColumnSize - len(symbol))
+            result += '|'
         for state in self.actionsForStates.keys():
             result += '\n'
-            result += str(state.index) + '| ' + str(self.actionsForStates[state]) + '   |'
+            result += str(state.index)
+            result += self.addSpaces(3 - len(str(state.index)))
+            result += '|' + str(self.actionsForStates[state])
+            result += self.addSpaces(totalTableColumnSize - len(str(self.actionsForStates[state])))
+            result += '|'
             if state not in self.stateToStateMap.keys():
                 for _ in self.symbolsToStateDefault.keys():
-                    result += '    |'
+                    result += self.addSpaces(totalTableColumnSize)
+                    result += '|'
             else:
                 for symbol in self.stateToStateMap[state].keys():
                     if self.stateToStateMap[state][symbol] == -1:
-                        result += '    |'
+                        result += self.addSpaces(totalTableColumnSize)
+                        result += '|'
                     else:
-                        result += str(self.stateToStateMap[state][symbol]) + '   |'
+                        result += str(self.stateToStateMap[state][symbol])
+                        result += self.addSpaces(totalTableColumnSize - len(str(self.stateToStateMap[state][symbol])))
+                        result += '|'
         return str(result)
 
     def __str__(self):
