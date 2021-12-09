@@ -49,6 +49,3 @@ class Console:
 if __name__ == '__main__':
     ui = Console()
     ui.run()
-
-
-# TODO: refactor code pls + description

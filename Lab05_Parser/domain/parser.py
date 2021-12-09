@@ -5,6 +5,9 @@ import copy
 from domain.table import Table, addSpaces
 
 AUGMENTED_PRODUCTION_LHS = 'S`'
+REDUCE = 'reduce'
+ACCEPT = 'acc'
+SHIFT = 'shift'
 
 
 class Parser:
@@ -149,19 +152,19 @@ class Parser:
         for state in self.canonicalCollection:
             item = state.items[0]
             if item.lhs == AUGMENTED_PRODUCTION_LHS and item.isDotAtTheEnd():
-                self.table.addActionToState(state, 'acc')
+                self.table.addActionToState(state, ACCEPT)
             elif item.isDotAtTheEnd():
                 reduceValue = -1
                 for rhs in self.grammar.P[item.lhs]:
                     if item.rhs == rhs[0]:
                         reduceValue = rhs[1]
-                self.table.addActionToState(state, 'reduce' + str(reduceValue))
+                self.table.addActionToState(state, REDUCE + str(reduceValue))
             else:
-                self.table.addActionToState(state, 'shift')
+                self.table.addActionToState(state, SHIFT)
 
     def buildInputStack(self, sequence):
         """
-        Iterate and put each symbol found in the output list.
+        Iterate and put each symbol found in the input list.
         :param sequence: a string containing symbols among it
         :return: a list of symbols
         """
@@ -186,47 +189,45 @@ class Parser:
 
     def parseSequence(self, sequence):
         """
-        The workingStack is a list considered a stack -> (meaning the top of the stack is the right most element), and
+        Performs the parsing algorithm using 3 stacks (input, working and output) handling each type of action for
+        a state: shift, reduce or accept. The workingStack is a list considered a stack ->
+        (meaning the top of the stack is the right most element), and
         the inputStack is also a list considered a stack <- (meaning the first element is the top of the stack)
         :param sequence: a string of symbols to be parsed
         :return: outputStack
         """
+        global topOfInputStack
         workingStack = [0]
         inputStack = self.buildInputStack(sequence)
         outputStack = []
 
-        while len(inputStack) > 0:
+        while True:
             print(str(workingStack) + addSpaces(40 - len(str(workingStack))) + ' | ' + str(inputStack) + addSpaces(
                 40 - len(str(inputStack))) + ' | ' + str(outputStack))
-
-            topOfInputStack = inputStack.pop(0)
-            currentState = self.getStateHavingIndex(workingStack[-1])
-            currentAction = self.table.actionsForStates[currentState]
-            workingStack.append(topOfInputStack)
-            if currentAction == 'shift':
-                workingStack.append(self.table.stateToStateMap[currentState][topOfInputStack])
-
-        while len(workingStack) > 0:
-            print(str(workingStack) + addSpaces(40 - len(str(workingStack))) + ' | ' + str(inputStack) + addSpaces(
-                40 - len(str(inputStack))) + ' | ' + str(outputStack))
-            topOfWorkingStack = workingStack.pop()
+            if len(inputStack):
+                topOfInputStack = inputStack.pop(0)
+            else:
+                topOfInputStack = None
+            topOfWorkingStack = workingStack[-1]
             currentState = self.getStateHavingIndex(topOfWorkingStack)
             currentAction = self.table.actionsForStates[currentState]
-            if 'reduce' in currentAction:
-                production = self.grammar.getProductionAsPair(int(currentAction[6:]))
-                reduceTo = production[0]
-                reduceFrom = production[1]
+            if currentAction == SHIFT and topOfInputStack is not None:
+                workingStack.append(topOfInputStack)
+                workingStack.append(self.table.stateToStateMap[currentState][topOfInputStack])
+            elif REDUCE in currentAction:
+                production = self.grammar.getProductionAsPair(int(currentAction[len(REDUCE):]))
+                reduceTo, reduceFrom = production
                 outputStack.insert(0, currentAction[6:])
                 for symbol in reduceFrom[::-1]:
                     while workingStack[-1] != symbol:
                         workingStack.pop()
                     workingStack.pop()
                 topOfWorkingStack = workingStack[-1]
-                if reduceTo == self.grammar.S:
-                    break
                 workingStack.append(reduceTo)
                 currentState = self.getStateHavingIndex(topOfWorkingStack)
                 workingStack.append(self.table.stateToStateMap[currentState][reduceTo])
+            elif currentAction == ACCEPT:
+                break
 
         print('\nFinal output: ' + str(outputStack))
 
