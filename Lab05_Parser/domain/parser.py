@@ -196,15 +196,39 @@ class Parser:
         outputStack = []
 
         while len(inputStack) > 0:
-        # while len(workingStack) > 0:
             print(str(workingStack) + addSpaces(40 - len(str(workingStack))) + ' | ' + str(inputStack) + addSpaces(
                 40 - len(str(inputStack))) + ' | ' + str(outputStack))
+
             topOfInputStack = inputStack.pop(0)
             currentState = self.getStateHavingIndex(workingStack[-1])
             currentAction = self.table.actionsForStates[currentState]
             workingStack.append(topOfInputStack)
             if currentAction == 'shift':
                 workingStack.append(self.table.stateToStateMap[currentState][topOfInputStack])
+
+        while len(workingStack) > 0:
+            print(str(workingStack) + addSpaces(40 - len(str(workingStack))) + ' | ' + str(inputStack) + addSpaces(
+                40 - len(str(inputStack))) + ' | ' + str(outputStack))
+            topOfWorkingStack = workingStack.pop()
+            currentState = self.getStateHavingIndex(topOfWorkingStack)
+            currentAction = self.table.actionsForStates[currentState]
+            if 'reduce' in currentAction:
+                production = self.grammar.getProductionAsPair(int(currentAction[6:]))
+                reduceTo = production[0]
+                reduceFrom = production[1]
+                outputStack.insert(0, currentAction[6:])
+                for symbol in reduceFrom[::-1]:
+                    while workingStack[-1] != symbol:
+                        workingStack.pop()
+                    workingStack.pop()
+                topOfWorkingStack = workingStack[-1]
+                if reduceTo == self.grammar.S:
+                    break
+                workingStack.append(reduceTo)
+                currentState = self.getStateHavingIndex(topOfWorkingStack)
+                workingStack.append(self.table.stateToStateMap[currentState][reduceTo])
+
+        print('\nFinal output: ' + str(outputStack))
 
     def printCanonicalCollection(self):
         result = ''

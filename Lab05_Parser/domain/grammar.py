@@ -71,6 +71,12 @@ class Grammar:
     def getProductions(self):
         return [self.getProductionsFor(nonTerminal) for nonTerminal in self.N]
 
+    def getProductionAsPair(self, index):
+        for key, value in self.P.items():
+            for rhs in value:
+                if rhs[1] == index:
+                    return key, rhs[0]
+
     def __str__(self):
         return 'N = { ' + ', '.join(self.N) + ' }\n' \
                + 'E = { ' + ', '.join(self.E) + ' }'
