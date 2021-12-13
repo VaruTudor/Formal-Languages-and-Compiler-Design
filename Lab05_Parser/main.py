@@ -1,8 +1,11 @@
 from domain.grammar import Grammar
 from domain.parser import Parser
 
-FILE_NAME = 'g3.txt'
+FILE_NAME = 'g1.txt'
 GET_PRODUCTIONS_FOR = 'A'
+SEQUENCE_G2 = 'start{integeridentifier;}'
+SEQUENCE_G1 = 'ac'
+SEQUENCE = SEQUENCE_G1
 
 
 def printBr():
@@ -40,8 +43,8 @@ class Console:
         self.parser.computeTableActions()
         self.parser.printLr0Table()
         printBr()
-        print('Parsing sequence: abbc')
-        self.parser.parseSequence('abbc')
+        print('Parsing sequence: ' + SEQUENCE)
+        self.parser.parseSequence(SEQUENCE)
         printBr()
 
 

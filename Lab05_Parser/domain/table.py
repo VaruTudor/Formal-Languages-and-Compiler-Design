@@ -32,6 +32,9 @@ class Table:
     def addActionToState(self, fromState, action):
         self.actionsForStates[fromState] = action
 
+    def isActionToStateDefined(self, fromState):
+        return fromState in self.actionsForStates.keys()
+
     def __repr__(self):
         result = '   | Action           |'
         for symbol in self.symbolsToStateDefault.keys():

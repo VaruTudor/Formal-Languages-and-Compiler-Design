@@ -158,8 +158,12 @@ class Parser:
                 for rhs in self.grammar.P[item.lhs]:
                     if item.rhs == rhs[0]:
                         reduceValue = rhs[1]
+                if self.table.isActionToStateDefined(state):
+                    raise RuntimeError
                 self.table.addActionToState(state, REDUCE + str(reduceValue))
             else:
+                if self.table.isActionToStateDefined(state):
+                    raise RuntimeError
                 self.table.addActionToState(state, SHIFT)
 
     def buildInputStack(self, sequence):
@@ -215,6 +219,8 @@ class Parser:
                 workingStack.append(topOfInputStack)
                 workingStack.append(self.table.stateToStateMap[currentState][topOfInputStack])
             elif REDUCE in currentAction:
+                if topOfInputStack is not None:
+                    inputStack.insert(0, topOfInputStack)
                 production = self.grammar.getProductionAsPair(int(currentAction[len(REDUCE):]))
                 reduceTo, reduceFrom = production
                 outputStack.insert(0, currentAction[6:])
@@ -226,8 +232,10 @@ class Parser:
                 workingStack.append(reduceTo)
                 currentState = self.getStateHavingIndex(topOfWorkingStack)
                 workingStack.append(self.table.stateToStateMap[currentState][reduceTo])
-            elif currentAction == ACCEPT:
+            elif currentAction == ACCEPT and topOfInputStack is None:
                 break
+            else:
+                raise RuntimeError('The sequence in not accepted')
 
         print('\nFinal output: ' + str(outputStack))
 
