@@ -1,0 +1,3 @@
+start{
+string a;
+string b}

@@ -1,0 +1,9 @@
+flex lang2.lxi
+bison -d lang.y
+gcc lang.tab.c lex.yy.c -o result
+./result < p1.txt
+
+flex lang.lxi
+gcc lex.yy.c -o lex_only
+./lex_only < p1.txt
+

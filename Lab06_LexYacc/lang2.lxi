@@ -1,0 +1,61 @@
+%{ 	 
+#include <stdio.h>
+#include <string.h>
+#include "lang.tab.h"
+int lines = 0;
+%} 
+
+%option noyywrap
+%option caseless
+
+DIGIT 		[0-9]
+WORD		\"[a-zA-Z0-9]*\"
+INTEGER		[+-]?[1-9][0-9]*
+CHARACTER 	\'[a-zA-Z0-9]\'
+constant	{WORD}|{INTEGER}|{CHARACTER}
+identifier	[a-zA-Z][a-zA-Z0-9]*
+
+%%
+start       {printf( "Reserved word: %s\n", yytext); return START;}
+read        {printf( "Reserved word: %s\n", yytext); return READ;}
+write	    {printf( "Reserved word: %s\n", yytext); return WRITE;}
+if	        {printf( "Reserved word: %s\n", yytext); return IF;}
+else	    {printf( "Reserved word: %s\n", yytext); return ELSE;}
+for	        {printf( "Reserved word: %s\n", yytext); return FOR;}
+while	    {printf( "Reserved word: %s\n", yytext); return WHILE;}
+break	    {printf( "Reserved word: %s\n", yytext); return BREAK;}
+integer	    {printf( "Reserved word: %s\n", yytext); return INTEGER;}
+string	    {printf( "Reserved word: %s\n", yytext); return STRING;}
+character   {printf( "Reserved word: %s\n", yytext); return CHARACTER;}
+array	    {printf( "Reserved word: %s\n", yytext); return ARRAY;}
+return      {printf( "Reserved word: %s\n", yytext); return RETURN;}
+
+{identifier}	{printf( "Identifier: %s\n", yytext); return IDENTIFIER;}
+{constant}	    {printf( "Constant: %s\n", yytext ); return CONSTANT;}
+
+";"	    {printf( "Separator: %s\n", yytext ); return SEMI_COLON;}
+","	    {printf( "Separator: %s\n", yytext ); return COMMA;}
+"{"	    {printf( "Separator: %s\n", yytext ); return OPEN_CURLY_BRACKET;}
+"}"	    {printf( "Separator: %s\n", yytext ); return CLOSED_CURLY_BRACKET;}
+"("	    {printf( "Separator: %s\n", yytext ); return OPEN_ROUND_BRACKET;}
+")"	    {printf( "Separator: %s\n", yytext ); return CLOSED_ROUND_BRACKET;}
+"["	    {printf( "Separator: %s\n", yytext ); return OPEN_RIGHT_BRACKET;}
+"]"	    {printf( "Separator: %s\n", yytext ); return CLOSED_RIGHT_BRACKET;}
+"+"	    {printf( "Operator: %s\n", yytext ); return ADD;}
+"-"	    {printf( "Operator: %s\n", yytext ); return SUB;}
+"*"	    {printf( "Operator: %s\n", yytext ); return MUL;}
+"/"	    {printf( "Operator: %s\n", yytext ); return DIV;}
+"<"	    {printf( "Operator: %s\n", yytext ); return LT;}
+">"	    {printf( "Operator: %s\n", yytext ); return GT;}
+"!="	{printf( "Operator: %s\n", yytext ); return NE;}
+"=="	{printf( "Operator: %s\n", yytext ); return EQ;}
+"="	    {printf( "Separator: %s\n", yytext ); return ASIGN;}
+"!"	    {printf( "Operator: %s\n", yytext ); return NOT;}
+
+[ \t]+  	{}
+[\n]+ {lines++;}
+		 
+[+-]?0[0-9]*                    {printf("Illegal integer at line %d\n", lines); return -1;}
+[0-9]+[a-zA-Z_]+[a-zA-Z0-9_]*   {printf("Illegal identifier %d\n", lines); return -1;}
+\'[a-zA-Z0-9]{2,}\'             {printf("Character of length >=2 at line %d\n", lines); return -1;}
+%%

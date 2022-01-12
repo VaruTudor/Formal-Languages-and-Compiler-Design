@@ -1,0 +1,25 @@
+Requirement: Check if an input is a prime number.
+Solution:
+
+start{
+
+integer a;
+integer i;
+integer is_prime;
+
+is_prime=0;
+read a;
+
+for(i=2;i<a;i=i+1){
+	if(a%i==0){
+		is_prime=1;
+		break;
+	}
+}
+
+if(is_prime==1){
+	write "a is prime"
+}else{
+	write "a is not prime";
+}
+}
